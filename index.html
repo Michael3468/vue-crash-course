@@ -13,52 +13,21 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-  <!-- navigation -->
-  <nav
-    :class="[`navbar-${theme} bg-${theme}`, 'navbar', 'navbar-expand-lg']"
-  >
-    <div class="container-fluid">
-      <a href="#" class="navbar-brand">My Vue</a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li
-          class="nav-item"
-          v-for="(page, index) in pages"
-          :key="index"
-        >
-          <a
-            class="nav-link"
-            :class="{active: activePage === index}"
-            aria-current="page"
-            :href="page.link.url"
-            :title="`This link goes to the ${page.link.text} page`"
-            @click.prevent="activePage = index"
-          >
-            {{ page.link.text }}
-          </a>
-        </li>
-      </ul>
-
-      <form class="d-flex">
-        <button
-          class="btn btn-primary"
-          @click.prevent="changeTheme()"
-        >
-          Toggle Dark Mode
-        </button>
-      </form>
-    </div>
-  </nav>
+  <navbar
+    :pages="pages"
+    :active-page="activePage"
+    :nav-link-click="(index) => activePage = index"
+  ></navbar>
 
   <page-viewer
     :page="pages[activePage]"
-  />
+  ></page-viewer>
 
   <script>
     let app = Vue.createApp({
       data () {
         return {
           activePage: 0,
-          theme: 'light',
           pages: [
             {
               link: { text: 'Home', url: 'index.html' },
@@ -78,21 +47,68 @@
           ],
         };
       },
-      methods: {
-        changeTheme() {
-          this.theme === 'light' ? this.theme = 'dark' : this.theme = 'light';
-        }
-      },
     });
     
     app.component('page-viewer', {
       props: ['page'],
       template: `
-        <div id="content" class="container">
+        <div class="container">
           <h1>{{ page.pageTitle }}</h1>
           <p>{{ page.content }}</p>
         </div>
       `,
+    });
+
+    app.component('navbar', {
+      props: ['pages', 'activePage', 'navLinkClick', 'theme'],
+      template: `
+        <nav
+          :class="[\`navbar-\${theme} bg-\${theme}\`, 'navbar', 'navbar-expand-lg']"
+        >
+          <div class="container-fluid">
+            <a href="#" class="navbar-brand">My Vue</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li
+                class="nav-item"
+                v-for="(page, index) in pages"
+                :key="index"
+              >
+                <a
+                  class="nav-link"
+                  :class="{active: activePage === index}"
+                  aria-current="page"
+                  :href="page.link.url"
+                  :title="\`This link goes to the \${page.link.text} page\`"
+                  @click.prevent="navLinkClick(index)"
+                >
+                  {{ page.link.text }}
+                </a>
+              </li>
+            </ul>
+
+            <form class="d-flex">
+              <button
+                class="btn btn-primary"
+                @click.prevent="changeTheme()"
+              >
+                Toggle Dark Mode
+              </button>
+            </form>
+          </div>
+        </nav>
+      `,
+
+      data() {
+        return {
+          theme: 'light',
+        }
+      },
+
+      methods: {
+        changeTheme() {
+          this.theme === 'light' ? this.theme = 'dark' : this.theme = 'light';
+        }
+      },
     });
 
     app.mount('body');
