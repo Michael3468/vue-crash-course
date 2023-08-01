@@ -18,9 +18,7 @@
       </ul>
 
       <form class="d-flex">
-        <button class="btn btn-primary" @click.prevent="changeTheme()">
-          Toggle Dark Mode
-        </button>
+        <button class="btn btn-primary" @click.prevent="changeTheme()">Toggle Dark Mode</button>
       </form>
     </div>
   </nav>
@@ -28,17 +26,17 @@
 
 <script>
 export default {
-  props: ["pages", "activePage", "navLinkClick"],
+  props: ['pages', 'activePage', 'navLinkClick'],
 
   data() {
     return {
-      theme: "light",
+      theme: 'light',
     };
   },
 
   methods: {
     changeTheme() {
-      this.theme === "light" ? (this.theme = "dark") : (this.theme = "light");
+      this.theme === 'light' ? (this.theme = 'dark') : (this.theme = 'light');
     },
   },
 };
