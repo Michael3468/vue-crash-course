@@ -33,7 +33,7 @@ export default {
 
   computed: {
     publishedPages() {
-      return Array.isArray(this.pages) ? this.pages.filter((p) => p.published === 'true') : [];
+      return Array.isArray(this.pages) ? this.pages.filter((p) => p.published) : [];
     },
   },
 
