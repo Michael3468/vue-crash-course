@@ -1,28 +1,26 @@
 <template>
-  <NavBar
-    :pages="pages"
-    :active-page="activePage"
-    :nav-link-click="(index) => (activePage = index)"
-  ></NavBar>
+  <NavBar :pages="pages" :active-page="activePage"></NavBar>
 
-  <!-- <PageViewer v-if="pages.length > 0" :page="pages[activePage]"></PageViewer> -->
-  <CreatePage :page-created="pageCreated"></CreatePage>
+  <PageViewer v-if="pages.length > 0" :page="pages[activePage]"></PageViewer>
+  <CreatePage @page-created="pageCreated"></CreatePage>
 </template>
 
 <script>
 import NavBar from './components/NavBar';
-// import PageViewer from './components/PageViewer';
+import PageViewer from './components/PageViewer';
 import CreatePage from './components/CreatePage';
 
 export default {
   components: {
     NavBar,
-    // PageViewer,
+    PageViewer,
     CreatePage,
   },
 
   created() {
     this.getPages();
+
+    this.$bus.$on('navbarLinkActivated', (index) => (this.activePage = index));
   },
 
   data() {
