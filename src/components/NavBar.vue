@@ -8,9 +8,18 @@
           :key="index"
           :page="page"
           :index="index"
-          :isActive="activePage === index"
-          @activated="$emit('activated')"
         ></NavbarLink>
+
+        <li>
+          <router-link
+            to="/pages/create"
+            class="nav-link"
+            aria-current="page"
+            active-class="active"
+          >
+            Create Page
+          </router-link>
+        </li>
       </ul>
 
       <form class="d-flex">
@@ -30,6 +39,8 @@ export default {
 
   created() {
     this.getThemeSetting();
+
+    this.pages = this.$pages.getAllPages();
   },
 
   computed: {
@@ -38,11 +49,10 @@ export default {
     },
   },
 
-  props: ['pages', 'activePage'],
-
   data() {
     return {
       theme: 'light',
+      pages: [],
     };
   },
 
