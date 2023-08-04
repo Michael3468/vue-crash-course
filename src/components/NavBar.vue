@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/valid-v-for -->
 <template>
   <nav :class="[`navbar-${theme} bg-${theme}`, 'navbar', 'navbar-expand-lg']">
     <div class="container-fluid">
@@ -5,19 +6,14 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <NavbarLink
           v-for="(page, index) in publishedPages"
-          :key="index"
+          :key="Math.random()"
           :page="page"
           :index="index"
         ></NavbarLink>
 
         <li>
-          <router-link
-            to="/pages/create"
-            class="nav-link"
-            aria-current="page"
-            active-class="active"
-          >
-            Create Page
+          <router-link to="/pages" class="nav-link" aria-current="page" active-class="active">
+            Pages
           </router-link>
         </li>
       </ul>
@@ -37,10 +33,16 @@ export default {
     NavbarLink,
   },
 
+  inject: ['$pages', '$bus'],
+
   created() {
     this.getThemeSetting();
 
     this.pages = this.$pages.getAllPages();
+
+    this.$bus.$on('page-updated', () => {
+      this.pages = [...this.$pages.getAllPages()];
+    });
   },
 
   computed: {

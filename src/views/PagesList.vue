@@ -1,18 +1,47 @@
 <template>
-  <p>{{ counter }}</p>
-  <button @click.prevent="click">click</button>
+  <h4>Pages</h4>
+
+  <div class="text-end">
+    <router-link to="/pages/create" class="btn btn-primary btn-sm">New Page</router-link>
+  </div>
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Link Text</th>
+        <th>Is Published</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="(page, index) in $pages.getAllPages()"
+        :key="index"
+        @click="goToPage(index)"
+        class="table-row"
+      >
+        <td>{{ page.pageTitle }}</td>
+        <td>{{ page.link.text }}</td>
+        <td>{{ page.published ? 'yes' : 'no' }}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      counter: 0,
-    };
-  },
+<script setup>
+import { inject } from 'vue';
+import { useRouter } from 'vue-router';
 
-  // methods: {
+const $pages = inject('$pages');
+const router = useRouter();
 
-  // }
-};
+function goToPage(index) {
+  router.push({ path: `pages/${index}/edit` });
+}
 </script>
+
+<style scoped>
+.table-row {
+  cursor: pointer;
+}
+</style>

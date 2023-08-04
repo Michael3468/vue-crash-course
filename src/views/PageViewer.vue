@@ -9,6 +9,8 @@
 export default {
   props: ['index'], // second method (with 'props: true' in routes)
 
+  inject: ['$pages'],
+
   created() {
     /* first method */
     // this.page = this.$pages.getSinglePage(this.$route.params.index);

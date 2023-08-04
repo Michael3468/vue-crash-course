@@ -3,6 +3,7 @@ import PageViewer from './views/PageViewer';
 import CreatePage from './views/CreatePage';
 import PagesList from './views/PagesList';
 import PagesManagement from './views/PagesManagement';
+import PageEdit from './views/PageEdit';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -14,6 +15,7 @@ const router = createRouter({
       children: [
         { path: '', component: PagesList },
         { path: 'create', component: CreatePage },
+        { path: ':index/edit', component: PageEdit, props: true },
       ],
     },
   ],
